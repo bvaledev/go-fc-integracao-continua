@@ -9,3 +9,11 @@ func main() {
 func soma(a int, b int) int {
 	return a + b
 }
+
+func dividir(a int, b int) int {
+	return a / b
+}
+
+func subtrair(a int, b int) int {
+	return a - b
+}
