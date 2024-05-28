@@ -1,0 +1,34 @@
+name: Sonarcloud
+on:
+  push:
+    branches:
+      - develop
+  pull_request:
+    types: [opened, synchronize, reopened]
+jobs:
+  sonarcloud:
+    name: SonarCloud
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+          go: ['1.22.1']
+          
+    steps:
+      - name: Get repository data
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+      
+      - name: Setup go environment
+        uses: actions/setup-go@v2 # cria o ambiente go
+        with:
+          go-version: ${{ matrix.go }}
+      
+      - name: Test App
+        run: go test -coverprofile=coverage.out
+
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
