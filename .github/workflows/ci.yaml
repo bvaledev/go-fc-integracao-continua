@@ -8,12 +8,14 @@ on:
 jobs:
   check-application:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+          go: ['1.22.1', '1.22.3']
     steps:
       - uses: actions/checkout@v2 # baixa os dados do repositorio para a maquina
       - uses: actions/setup-go@v2 # cria o ambiente go
         with:
-          go-version: 1.22
-      
+          go-version: ${{ matrix.go }}
       - run: go test
       - run: go run math.go
 
