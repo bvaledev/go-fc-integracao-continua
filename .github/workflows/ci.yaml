@@ -25,6 +25,12 @@ jobs:
       - name: Run App
         run: go run math.go
 
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        
       - name: Set up QEMU # seta o ambiente docker na maquina
         uses: docker/setup-qemu-action@v3
 
